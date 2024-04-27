@@ -1,0 +1,269 @@
+<?php
+require_once('tcpdf/tcpdf.php');
+include("config.php");
+
+// Fetch data from the database table 1
+$query = "SELECT * FROM cart";
+$result = mysqli_query($conn, $query);
+
+$rows = [];
+while ($row = mysqli_fetch_assoc($result)) {
+    $rows[] = $row;
+}
+
+// Fetch data from the database
+$input = "SELECT * FROM comments";
+$user = mysqli_query($conn, $input);
+
+$rows_one = [];
+while ($row_one = mysqli_fetch_assoc($user)) {
+    $rows_one[] = $row_one;
+}
+// Calculate grand total
+$grand_total = array_reduce($rows, function ($sum, $row) {
+    return $sum + $row['total_price'];
+}, 0);
+
+// Extend TCPDF
+
+require_once('tcpdf/tcpdf.php');
+
+class MYPDF extends TCPDF {
+    public function Header() {
+        // Set header content here if needed
+    }
+
+    public function Footer() {
+        // Set footer content here if needed
+    }
+}
+
+// Create PDF instance
+$pdf = new MYPDF();
+$pdf->SetAutoPageBreak(true, PDF_MARGIN_BOTTOM);
+$pdf->AddPage();
+
+// Set font
+$pdf->SetFont('helvetica', '', 10);
+
+// Set image file
+$imageFile = 'cvsu.jpg';
+
+// Set X and Y position on the page, and the width and height of the image
+$x = 30;
+$y = 10;
+$width = 30;
+$height = 0; // If set to 0, TCPDF will automatically calculate the height to maintain the aspect ratio
+
+// Add image to the page
+$pdf->Image($imageFile, $x, $y, $width, $height);
+
+// Add centered text
+$text = 'Republic of the Philippines';
+$pdf->Cell(0, 10, $text, 0, 1, 'C', 0, '', 0, false, 'T', 'M'); // 'C' stands for center alignment, 'T' stands for top alignment, 'M' stands for middle of the cell
+
+// Set font to bold
+$pdf->SetFont('helvetica', 'B', 10);
+
+// Set Y position for the HTML content
+$pdf->SetY(15); // Adjust this value as needed
+
+// Add another centered text
+$text2 = 'CAVITE STATE UNIVERSITY';
+$pdf->Cell(0, 10, $text2, 0, 1, 'C', 0, '', 0, false, 'T', 'M'); // 'C' stands for center alignment, 'T' stands for top alignment, 'M' stands for middle of the cell
+
+// Set Y position for the HTML content
+$pdf->SetY(20); // Adjust this value as needed
+
+// Add another centered text
+$text3 = 'Don Severino de las Alas Campus';
+$pdf->Cell(0, 10, $text3, 0, 1, 'C', 0, '', 0, false, 'T', 'M'); // 'C' stands for center alignment, 'T' stands for top alignment, 'M' stands for middle of the cell
+
+// Set font to bold
+$pdf->SetFont('helvetica', '', 10);
+
+// Set Y position for the HTML content
+$pdf->SetY(25); // Adjust this value as needed
+
+// Add another centered text
+$text4 = 'Indang, Cavite, Philippines';
+$pdf->Cell(0, 10, $text4, 0, 1, 'C', 0, '', 0, false, 'T', 'M'); // 'C' stands for center alignment, 'T' stands for top alignment, 'M' stands for middle of the cell
+
+// Set Y position for the HTML content
+$pdf->SetY(30); // Adjust this value as needed
+
+// Add another centered text
+$text5 = '(046) 4150-010';
+$pdf->Cell(0, 10, $text5, 0, 1, 'C', 0, '', 0, false, 'T', 'M'); // 'C' stands for center alignment, 'T' stands for top alignment, 'M' stands for middle of the cell
+
+// Set Y position for the HTML content
+$pdf->SetY(35); // Adjust this value as needed
+
+// Add another centered text
+$text6 = 'www.cvsu.edu.ph';
+$pdf->Cell(0, 10, $text6, 0, 1, 'C', 0, '', 0, false, 'T', 'M'); // 'C' stands for center alignment, 'T' stands for top alignment, 'M' stands for middle of the cell
+
+
+// Set font to bold
+$pdf->SetFont('helvetica', 'B', 10);
+
+// Add another centered text
+$text7 = 'INVITATION TO SUBMIT QUOTATION';
+$pdf->Cell(0, 10, $text7, 0, 1, 'C', 0, '', 0, false, 'T', 'M');
+
+
+// Set Y position for the HTML content
+$pdf->SetY(50); // Adjust this value as needed
+
+// Display the result of implode for input_one
+$text10 = implode(', ', array_column($rows_one, 'input_one'));
+$pdf->Cell(0, 10, $text10, 0, 1, 'C', 0, '', 0, false, 'T', 'M');
+
+$pdf->SetFont('helvetica', '', 10);
+
+// Set Y position for the first HTML section
+$yPositionSection1 = 20; // Adjust this value as needed
+$pdf->SetY($yPositionSection1);
+
+// Your existing HTML content for the first section
+$htmlSection1 = '
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+    </head>
+    <body>
+        <div class="center-container">
+            <div class="row justify-content-center">
+                <div class="col-lg- px-20" id="order">
+                    <header>
+                        <p></p>
+                    </header> 
+                    <div class="container">
+                        <h4></h4>
+                        <p style="font-size: 11px; margin-left: 20px; text-align: justify;">
+                            1. The Cavite State University (CvSU) invites interested firms/supplier to submit 
+                            quotation for the project “<b>' . implode(', ', array_column($rows_one, 'input_one')) . '</b>” with an  
+                            Approved Budget for the Contract (ABC) 
+                            <b>PhP ' . number_format($grand_total, 2) . '</b>
+                            Quotation received in excess of the ABC shall be automatically rejected at the opening.
+                        </p>
+                    </div>
+                    <table border="1" cellspacing="0" cellpadding="5" width="100%">
+                        <thead>
+                            <tr>
+                                <th>Item No.</th>
+                                <th style="width: 35px;">QTY</th>
+                                <th>Unit</th>
+                                <th>Description</th>
+                                <th>Unit Cost</th>
+                                <th>Total Cost</th>
+                            </tr>
+                        </thead>
+                        <tbody>';
+
+foreach ($rows as $item_num => $row) {
+    $htmlSection1 .= '<tr>
+                <td>' . ($item_num + 1) . '</td>
+                <td style="width: 35px;">' . $row['qty'] . '</td>
+                <td>' . $row['product_name'] . '</td>
+                <td>' . $row['description'] . '</td>
+                <td>' . number_format($row['product_price'], 2) . '</td>
+                <td>' . number_format($row['total_price'], 2) . '</td>
+              </tr>';
+}
+
+// Output the table and total for the first section
+$htmlSection1 .= '</tbody>
+    </table>
+    <div id="invoice-total" style="text-align: right; margin-top: 10px; padding-right: 20px;">
+        <p>Total Amount: <b style="border: 1px solid #000; padding: 5px;">' . number_format($grand_total, 2) . '</b></p>
+    </div>
+</div>
+</div>
+</div>';
+
+// Output the first section
+$pdf->writeHTML($htmlSection1, true, false, true, false, '');
+
+// Set Y position for the second HTML section
+$yPositionSection2 = $pdf->GetY() + 10; // Add some margin between sections
+$pdf->SetY($yPositionSection2);
+
+$htmlSection2 = '<header>
+        <p style="font-size: 11px; margin-left: 20px; text-align: justify;">2. Delivery Period: ____ calendar days from the receipt of P.O.<br></p>
+        <p style="font-size: 11px; margin-left: 20px; text-align: justify;">3. Price quotations must be valid for a period of sixty (60) calendar days from date of
+            submission and shall include all taxes, duties, and/or levies payable. Bidders shall also
+            indicate the brand and model of the items being offered.<br></p>
+        <p style="font-size: 11px; margin-left: 20px; text-align: justify;">4. Warranty shall be for a period of six (6) months for supplies and materials. The warranty for
+            equipment must not be less than one (1) year from the date of acceptance and shall be
+            accompanied by a Warranty Certificate.<br></p>
+        <p style="font-size: 11px; margin-left: 20px; text-align: justify;">5. The quotation must be submitted to the Procurement Office through mail, fax, or email at
+            the contact details listed below <b>' . implode(', ', array_column($rows_one, 'input_two')) . '</b> of <b>' . implode(', ', array_column($rows_one, 'input_three')) . '</b>. <br></p>
+    </header>';
+// Output the second section
+$pdf->writeHTML($htmlSection2, true, false, true, false, '');
+            
+$html = '
+    <table cellspacing="0" cellpadding="0">
+        <tr>
+            <td style="font-size: 9px; text-align: center;">Address:</td>
+            <td style="font-size: 9px;">Procurement Office, Administration Building Cavite State University Indang, Cavite</td>
+        </tr>
+        <tr>
+            <td style="font-size: 9px; text-align: center;">E-mail:</td>
+            <td style="font-size: 9px;">procurementoffice@cvsu.edu.ph / rfqmain@cvsu.edu.ph</td>
+        </tr>
+        <tr>
+            <td style="font-size: 9px; text-align: center;">Telefax:</td>
+            <td style="font-size: 9px;">(046) 889-6373</td>
+        </tr>
+    </table>
+            <p style="font-size: 11px; margin-left: 20px; text-align: justify;">6. The CvSU reserves the right to reject any or all quotations and/or proposals and waive
+        any formalities/informalities therein and to accept such bids it may consider as most
+        advantageous to the agency and to the government. CvSU neither assumes any
+        obligation for whatsoever losses that may be incurred in the preparation of bids, nor does
+        it guarantee that an award will be made. <br></p>
+        ';
+        
+$pdf->writeHTML($html, true, false, false, false, '');
+          
+// Set Y position for the HTML content
+$pdf->SetY(45); // Adjust this value as needed
+
+$text11 = 'ROSELYN M. MARANAN';
+$pdf->SetFont('helvetica', 'B', 11); // Set font to bold and 11px
+$pdf->Cell(153.1, 0, $text11, 0, 1, 'R', 0, '', 0, false, 'T', 'M');
+$pdf->SetFont('helvetica', '', 11); // Reset font to normal and 11px
+
+$text12 = 'BAC Secretary, Goods and Consulting Services';
+
+// Calculate the width of text11
+$text11Width = $pdf->GetStringWidth($text11);
+
+// Calculate the X coordinate to align the first word of text12
+$text12X = ($pdf->GetPageWidth() - $text11Width) / 2;
+
+$pdf->Cell(0, 0, $text12, 0, 1, 'R', 0, $text12X, 0, false, 'T', 'M');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Output PDF as a download
+$pdf->Output('your_filename.pdf', 'D');
+
+
+?>
+
+
