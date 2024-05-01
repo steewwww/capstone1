@@ -119,8 +119,8 @@ $user_data = check_login($conn);
                             <table id="example" class="display" style="width:100%">
                                 <thead>
                                     <tr>
-                                        <th>Product name</th>
                                         <th>Description</th>
+                                        <th>Unit</th>
                                         <th>Price</th>
                                         <th>Add</th>
                                     </tr>
@@ -142,8 +142,8 @@ $user_data = check_login($conn);
 
                                     while ($row = mysqli_fetch_assoc($result)) {
                                         echo "<tr>";
-                                        echo "<td>{$row['product_name']}</td>";
                                         echo "<td class='product-description'>{$row['description']}</td>";
+                                        echo "<td>{$row['product_name']}</td>";
                                         echo "<td>₱" . number_format($row['product_price'], 2) . "</td>";
                                         echo "<td>";
                                         echo "<input type='hidden' class='pqty' value='1' min='1'>";
