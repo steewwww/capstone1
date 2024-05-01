@@ -47,7 +47,8 @@
                             </tr>
                             <tr>
                                 <th style="width: 150px;">ID</th>
-                                <th style="width: 150px;">Product</th>
+                                <th style="width: 150px;">PRODUCT</th>
+                                <th style="width: 150px;">UNIT</th>
                                 <th style="width: 180px;">Price</th>
                                 <th style="width: 200px;">Quantity</th>
                                 <th style="width: 150px;">Total Price</th>
@@ -68,6 +69,7 @@
                               <tr>
                                 <td><?= $row['id'] ?></td>
                                 <input type="hidden" class="pid" value="<?= $row['id'] ?>">
+                                <td><?= $row['description'] ?></td>
                                 <td><?= $row['product_name'] ?></td>
                                 <td>₱
                                   <i class=""></i>&nbsp;&nbsp;<?= number_format($row['product_price'],2); ?>
