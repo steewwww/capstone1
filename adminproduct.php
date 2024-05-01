@@ -90,7 +90,7 @@ $result = mysqli_query($conn, $query);
           <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="addModalLabel">Add User</h5>
+                    <h5 class="modal-title" id="addModalLabel">Add Product</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -98,14 +98,22 @@ $result = mysqli_query($conn, $query);
                 <div class="modal-body">
                     <!-- Add your form fields for adding a new user here -->
                     <form action="addproduct.php" method="POST">
-                        <div class="form-group">
-                            <label>Product Name</label>
-                            <input type="product_name" class="form-control" name="product_name" required>
-                        </div>
+                        
                         <div class="form-group">
                             <label>Description</label>
                             <textarea type="description"class="form-control" name="description" required rows="5"></textarea>
                             
+                        </div>
+                        <div class="form-group">
+                            <label>Category</label>
+                            <select type="product_name" class="form-control" name="product_name" required>
+                            <option selected>Select unit</option>
+                            <option value="pcs">pcs</option>
+                            <option value="unit">unit</option>
+                            <option value="liters">liters</option>
+                            <option value="sets">sets</option>
+                            <option value="gal">gallon</option>
+                            </select>
                         </div>
                         <div class="form-group">
                             <label>Product Price</label>
