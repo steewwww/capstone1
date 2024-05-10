@@ -40,8 +40,13 @@ class MYPDF extends TCPDF {
 
 // Create PDF instance
 $pdf = new MYPDF();
+
+// Set margins
+$pdf->SetMargins(25, 10, 15); // Left, Top, Right
+
 $pdf->SetAutoPageBreak(true, PDF_MARGIN_BOTTOM);
 $pdf->AddPage();
+
 
 // Set font
 $pdf->SetFont('helvetica', '', 10);
@@ -226,37 +231,17 @@ $html = '
         it guarantee that an award will be made. <br></p>
         ';
         
-$pdf->writeHTML($html, true, false, false, false, '');
-          
-// Set Y position for the HTML content
-$pdf->SetY(45); // Adjust this value as needed
+// Output the second section
+$pdf->writeHTML($html, true, false, true, false, '');
 
-$text11 = 'ROSELYN M. MARANAN';
-$pdf->SetFont('helvetica', 'B', 11); // Set font to bold and 11px
-$pdf->Cell(153.1, 0, $text11, 0, 1, 'R', 0, '', 0, false, 'T', 'M');
-$pdf->SetFont('helvetica', '', 11); // Reset font to normal and 11px
+// Set font to bold
+$pdf->SetFont('helvetica', 'B', 10);
 
-$text12 = 'BAC Secretary, Goods and Consulting Services';
-
-// Calculate the width of text11
-$text11Width = $pdf->GetStringWidth($text11);
-
-// Calculate the X coordinate to align the first word of text12
-$text12X = ($pdf->GetPageWidth() - $text11Width) / 2;
-
-$pdf->Cell(0, 0, $text12, 0, 1, 'R', 0, $text12X, 0, false, 'T', 'M');
-
-
-
-
-
-
-
-
-
-
-
-
+$pdf->Cell(0, 15, 'JANJAN BALABA                                                     ', 0, false, 'R', 0, '', 0, false, 'M', 'M');
+$pdf->Ln(5);
+$pdf->SetFont('helvetica', '', 11);
+$pdf->Cell(0, 15, 'BAC Secretary, Goods and Consulting Services', 0, false, 'R', 0, '', 0, false, 'M', 'M');
+//$pdf->Image('img/signature.png', 150, ($pdf->GetY() - 20), 18, 18, 'PNG', '', 'T', false, 300, '', false, false, 0, false, false, false);
 
 
 
