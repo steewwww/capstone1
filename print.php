@@ -176,23 +176,7 @@ label {
       <br>
       <br>
       <br>
-      
-        <!-- Dropdowns for selecting name and role -->
-        <label for="selected_name">Select Name:</label>
-        <select name="selected_name">
-            <option value="">Select Name</option> <!-- Default option -->
-            <?php while ($row_name = $result_name->fetch_assoc()) : ?>
-                <option value="<?php echo $row_name['signatoryName']; ?>"><?php echo $row_name['signatoryName']; ?></option>
-            <?php endwhile; ?>
-        </select>
 
-        <label for="selected_role">Select Role:</label>
-        <select name="selected_role">
-            <option value="">Select Role</option> <!-- Default option -->
-            <?php while ($row_role = $result_role->fetch_assoc()) : ?>
-                <option value="<?php echo $row_role['signatoryRole']; ?>"><?php echo $row_role['signatoryRole']; ?></option>
-            <?php endwhile; ?>
-        </select>
         <!-- FOR TESTING ONLY -->
         <div style="width: 100%; display: flex; flex-direction: row; justify-content: space-between;">
           <div>
