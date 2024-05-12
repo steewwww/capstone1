@@ -232,16 +232,16 @@ $html = '
         ';
         
 // Output the second section
-$pdf->writeHTML($html, true, false, true, false, '');
+$pdf->writeHTML($htmlSection2, true, false, true, false, '');
 
 // Set font to bold
 $pdf->SetFont('helvetica', 'B', 10);
 
-$pdf->Cell(0, 15, 'JANJAN BALABA                                                     ', 0, false, 'R', 0, '', 0, false, 'M', 'M');
+$pdf->Cell(0, 15, 'JANJAN BALABA,                                                    ', 0, false, 'R', 0, '', 0, false, 'M', 'M');
 $pdf->Ln(5);
 $pdf->SetFont('helvetica', '', 11);
 $pdf->Cell(0, 15, 'BAC Secretary, Goods and Consulting Services', 0, false, 'R', 0, '', 0, false, 'M', 'M');
-//$pdf->Image('img/signature.png', 150, ($pdf->GetY() - 20), 18, 18, 'PNG', '', 'T', false, 300, '', false, false, 0, false, false, false);
+$pdf->Image('D:\xampp\htdocs\CvsuCanvassing\img\signature.png', 115, ($pdf->GetY() - 20), 18, 18, 'PNG', '', 'T', false, 300, '', false, false, 0, false, false, false);
 
 
 
