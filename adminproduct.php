@@ -30,12 +30,81 @@ $result = mysqli_query($conn, $query);
     <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css' />
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.css">
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
+
+    <style>
+        .container {
+            width: 100%;
+            padding-left: 15px;
+            padding-right: 15px;
+            margin-right: auto;
+            margin-left: auto;
+        }
+
+        .mt-5 {
+            margin-top: 5rem;
+        }
+
+        .card {
+            margin-bottom: 20px;
+            border: 0;
+            border-radius: .375rem;
+            box-shadow: 0 0 40px rgba(0, 0, 0, .1);
+            width: 100%; /* Set the card width to 100% */
+        }
+
+        .card-body {
+            padding: 1.5rem;
+        }
+
+        .text-center {
+            text-align: center !important;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th,
+        td {
+            border: 1px solid #000; /* Set border color to black */
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2; /* Set background color for header cells */
+        }
+
+        .product-description {
+            max-width: 300px; /* Limit maximum width for description */
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .addItemBtn {
+            background-color: #006400; /* Dark green color */
+            color: #fff;
+            border: 1px solid #006400; /* Match the border color to the background color */
+            padding: 6px 8px; /* Adjust padding to make the button smaller */
+            font-size: 14px; /* Adjust font size to make the text smaller */
+            cursor: pointer;
+            transition: background-color 0.3s; /* Add smooth transition for the background color change */
+        }
+
+        .addItemBtn:hover {
+            background-color: #008000; /* Slightly lighter green on hover */
+            color: #fff; /* Change text color on hover if needed */
+        }
+    </style>
 </head>
 
 <body >
-    <div class="container mt-5">
+<div class="container mt-5">
         <div class="row justify-content-center">
-            <div class="col-lg-9 px-20" id="order">
+            <div class="col-lg-10 px-20" id="order"> <!-- Adjusted the width to col-lg-12 -->
                 <div class="card">
                     <div class="card-body">
                         <header>
@@ -61,23 +130,24 @@ $result = mysqli_query($conn, $query);
                                 </tr>
                             </thead>
                             <?php
-                            while ($row = mysqli_fetch_assoc($result)) {
-                            ?>
-                                <tr>
-                                    <td><?php echo $row['product_code']; ?></td>
-                                    <td><?php echo $row['category']; ?></td>
-                                    <td><?php echo $row['product_qty']; ?></td>
-                                    <td><?php echo $row['product_name']; ?></td>
-                                    <td><?php echo $row['description']; ?></td>
-                                    <td><?= ($row['product_price']); ?></td>
-                                    <td>
-                                    <button class="btn btn-success editbtn" data-toggle="modal" data-target="#updateModal" data-id="<?php echo $row['id']; ?>">Update</button>
-                                    <button class="btn btn-dark deletebtn" data-toggle="modal" data-target="#deleteModal" data-id="<?php echo $row['id']; ?>">Delete</button>
-                                    </td>
-                                </tr>
-                            <?php
-                            }
-                            ?>
+                                while ($row = mysqli_fetch_assoc($result)) {
+                                ?>
+                                    <tr>
+                                        <td><?php echo $row['product_code']; ?></td>
+                                        <td><?php echo $row['category']; ?></td>
+                                        <td><?php echo $row['product_qty']; ?></td>
+                                        <td><?php echo $row['product_name']; ?></td>
+                                        <td><?php echo nl2br($row['description']); ?></td>
+                                        <td><?php echo $row['product_price']; ?></td>
+                                        <td>
+                                            <button class="btn btn-success editbtn" data-toggle="modal" data-target="#updateModal" data-id="<?php echo $row['id']; ?>">Update</button>
+                                            <button class="btn btn-dark deletebtn" data-toggle="modal" data-target="#deleteModal" data-id="<?php echo $row['id']; ?>">Delete</button>
+                                        </td>
+                                    </tr>
+                                <?php
+                                }
+                                ?>
+
                         </table> <!-- Table ends here -->
                     </div>
                 </div>
