@@ -105,18 +105,18 @@ label {
 
         <!-- Table Section -->
         <table id="invoice-items">
-            <thead>
-                <tr>
-                    <th><center>Item No.</center></th>
-                    <th><center>Quantity</center></th>
-                    <th><center>Unit</center></th>
-                    <th><center>Description</center></th>
-                    <th><center>Unit Cost</center></th>
-                    <th><center>Total Cost</center></th>
-                </tr>
-            </thead>
+    <thead>
+        <tr>
+            <th style="width: 5%;"><center>Item No.</center></th>
+            <th style="width: 10%;"><center>Quantity</center></th>
+            <th style="width: 10%;"><center>Unit</center></th>
+            <th style="width: 40%;"><center>Description</center></th>
+            <th style="width: 10%;"><center>Unit Cost</center></th>
+            <th style="width: 10%;"><center>Total Cost</center></th>
+        </tr>
+    </thead>
             <tbody>
-                <?php
+            <?php
                 $item_num = 1;
                 $result = mysqli_query($conn, $query); // Reset the result set
                 while ($row = mysqli_fetch_assoc($result)) {
@@ -124,13 +124,14 @@ label {
                     echo "<td>{$item_num}</td>";
                     echo "<td>{$row['qty']}</td>";
                     echo "<td>{$row['product_name']}</td>";
-                    echo "<td>{$row['description']}</td>";
+                    echo "<td>" . nl2br($row['description']) . "</td>";
                     echo "<td>₱" . number_format($row['product_price'], 2) . "</td>";
                     echo "<td>₱" . number_format($row['total_price'], 2) . "</td>";
                     echo "</tr>";
                     $item_num++;
                 }
-                ?>
+            ?>
+
             </tbody>
         </table>
 
