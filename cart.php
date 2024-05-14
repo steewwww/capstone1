@@ -66,30 +66,30 @@
                                 $grand_total = 0;
                                 while ($row = $result->fetch_assoc()):
                               ?>
-                              <tr>
-                                <td><?= $row['id'] ?></td>
-                                <input type="hidden" class="pid" value="<?= $row['id'] ?>">
-                                <td><?= $row['description'] ?></td>
-                                <td><?= $row['product_name'] ?></td>
-                                <td>₱
-                                  <i class=""></i>&nbsp;&nbsp;<?= number_format($row['product_price'],2); ?>
-                                </td>
-                                <input type="hidden" class="pprice" value="<?= $row['product_price'] ?>">
-                                <td>
+                        <tr>
+                            <td><?= $row['id'] ?></td>
+                            <input type="hidden" class="pid" value="<?= $row['id'] ?>">
+                            <td style="width: 300px; word-wrap: break-word;"><?= nl2br($row['description']) ?></td>
+                            <td><?= $row['product_name'] ?></td>
+                            <td>₱
+                                <i class=""></i>&nbsp;&nbsp;<?= number_format($row['product_price'], 2); ?>
+                            </td>
+                            <input type="hidden" class="pprice" value="<?= $row['product_price'] ?>">
+                            <td>
                                 <div class="input-group">
-                                  <span class="input-group-btn">
-                                    <button type="button" class="btn btn-danger btn-number" data-type="minus" data-field="qty">
-                                      <i class="fas fa-minus"></i>
-                                    </button>
-                                  </span>
-                                  <input type="text" name="qty" class="form-control input-number itemQty" value="<?= $row['qty'] ?>" min="1" max="100">
-                                  <span class="input-group-btn">
-                                    <button type="button" class="btn btn-success btn-number" data-type="plus" data-field="qty">
-                                      <i class="fas fa-plus"></i>
-                                    </button>
-                                  </span>
-                            </div>
-                          </td>
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-danger btn-number" data-type="minus" data-field="qty">
+                                            <i class="fas fa-minus"></i>
+                                        </button>
+                                    </span>
+                                    <input type="text" name="qty" class="form-control input-number itemQty" value="<?= $row['qty'] ?>" min="1" max="100">
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-success btn-number" data-type="plus" data-field="qty">
+                                            <i class="fas fa-plus"></i>
+                                        </button>
+                                    </span>
+                                </div>
+                            </td>
                           <td class="totalPrice">₱<?= number_format($row['total_price'], 2); ?></td>
                             <td>
                               <a href="action.php?remove=<?= $row['id'] ?>" class="text-danger lead" onclick="return confirm('Are you sure want to remove this item?');"><i class="fas fa-trash-alt"></i></a>
