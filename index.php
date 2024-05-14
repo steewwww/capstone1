@@ -35,6 +35,7 @@ $user_data = check_login($conn);
         .card-body {
             padding: 1.5rem;
         }
+        
 
         .text-center {
             text-align: center !important;
@@ -56,25 +57,51 @@ $user_data = check_login($conn);
         }
 
         .product-description {
-            max-width: 300px; /* Limit maximum width for description */
+            max-width: 550px; /* Limit maximum width for description */
             overflow: hidden;
             text-overflow: ellipsis;
-            white-space: nowrap;
+            line-height: 1.5; /* Adjust line height for readability */
         }
         .addItemBtn {
-        background-color: #006400; /* Dark green color */
-        color: #fff;
-        border: 1px solid #006400; /* Match the border color to the background color */
-        padding: 6px 8px; /* Adjust padding to make the button smaller */
-        font-size: 14px; /* Adjust font size to make the text smaller */
-        cursor: pointer;
-        transition: background-color 0.3s; /* Add smooth transition for the background color change */
-    }
+            background-color: #006400; /* Dark green color */
+            color: #fff;
+            border: 1px solid #006400; /* Match the border color to the background color */
+            padding: 10px 15px; /* Adjust padding to make the button more visually appealing */
+            font-size: 14px; /* Font size */
+            font-weight: bold; /* Make the text bold */
+            cursor: pointer;
+            border-radius: 5px; /* Add rounded corners */
+            transition: background-color 0.3s, transform 0.3s; /* Add smooth transition for the background color and a slight transform */
+        }
 
-    .addItemBtn:hover {
-        background-color: #008000; /* Slightly lighter green on hover */
-        color: #fff; /* Change text color on hover if needed */
-    }
+        .addItemBtn:hover {
+            background-color: #008000; /* Slightly lighter green on hover */
+            color: #fff; /* Text color on hover */
+            transform: scale(1.05); /* Slightly enlarge the button on hover */
+        }
+
+        .addItemBtn:active {
+            background-color: #004d00; /* Even darker green when the button is active (clicked) */
+            transform: scale(1); /* Reset the scale on active */
+        }
+
+    #categoryFilter {
+            background-color: green;
+            color: white;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 5px;
+        }
+
+        #categoryFilter option {
+            background-color: white;
+            color: black;
+        }
+
+        #categoryFilter option[selected] {
+            background-color: green;
+            color: white;
+        }
     </style>
 </head>    
 
@@ -120,7 +147,7 @@ $user_data = check_login($conn);
                                 <thead>
                                     <tr>
                                         <th>Description</th>
-                                        <th>Unit</th>
+                                        <th style="width: 70px;" >Unit</th>
                                         <th>Price</th>
                                         <th>Add</th>
                                     </tr>
@@ -141,8 +168,9 @@ $user_data = check_login($conn);
                                     $result = mysqli_query($conn, $query);
 
                                     while ($row = mysqli_fetch_assoc($result)) {
+                                        $description_with_breaks = nl2br($row['description']);
                                         echo "<tr>";
-                                        echo "<td class='product-description'>{$row['description']}</td>";
+                                        echo "<td class='product-description'>{$description_with_breaks}</td>";
                                         echo "<td>{$row['product_name']}</td>";
                                         echo "<td>₱" . number_format($row['product_price'], 2) . "</td>";
                                         echo "<td>";
@@ -158,6 +186,7 @@ $user_data = check_login($conn);
                                         echo "</tr>";
                                     }
                                     ?>
+                                    
                                 </tbody>
                             </table> <!-- Table ends here -->
                         </form> <!-- Form ends here -->
