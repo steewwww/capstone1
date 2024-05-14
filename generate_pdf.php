@@ -1,4 +1,5 @@
 <?php
+header('Content-type: text/plain;charset=UTF-8');
 require_once('tcpdf/tcpdf.php');
 include("config.php");
 
@@ -63,12 +64,17 @@ $height = 0; // If set to 0, TCPDF will automatically calculate the height to ma
 // Add image to the page
 $pdf->Image($imageFile, $x, $y, $width, $height);
 
+
 // Add centered text
+$BookmanOldStyle = TCPDF_FONTS::addTTFfont('D:\xampp\htdocs\CvsuCanvassing\tcpdf\customfonts\BookmanOldStyle.ttf', 'TrueTypeUnicode', '', 96);
+$BOOKOSB = TCPDF_FONTS::addTTFfont('D:\xampp\htdocs\CvsuCanvassing\tcpdf\customfonts\BOOKOSB.ttf', 'TrueTypeUnicode', '', 96);
+$pdf->SetFont($BookmanOldStyle, 'B', 12);
 $text = 'Republic of the Philippines';
 $pdf->Cell(0, 10, $text, 0, 1, 'C', 0, '', 0, false, 'T', 'M'); // 'C' stands for center alignment, 'T' stands for top alignment, 'M' stands for middle of the cell
 
 // Set font to bold
-$pdf->SetFont('helvetica', 'B', 10);
+$pdf->SetFont($BOOKOSB, 'B', 12);
+
 
 // Set Y position for the HTML content
 $pdf->SetY(15); // Adjust this value as needed
@@ -77,22 +83,27 @@ $pdf->SetY(15); // Adjust this value as needed
 $text2 = 'CAVITE STATE UNIVERSITY';
 $pdf->Cell(0, 10, $text2, 0, 1, 'C', 0, '', 0, false, 'T', 'M'); // 'C' stands for center alignment, 'T' stands for top alignment, 'M' stands for middle of the cell
 
+
 // Set Y position for the HTML content
 $pdf->SetY(20); // Adjust this value as needed
 
 // Add another centered text
+$pdf->SetFont('helvetica', 'B', 10);
 $text3 = 'Don Severino de las Alas Campus';
 $pdf->Cell(0, 10, $text3, 0, 1, 'C', 0, '', 0, false, 'T', 'M'); // 'C' stands for center alignment, 'T' stands for top alignment, 'M' stands for middle of the cell
 
-// Set font to bold
-$pdf->SetFont('helvetica', '', 10);
 
 // Set Y position for the HTML content
 $pdf->SetY(25); // Adjust this value as needed
 
 // Add another centered text
+$CenturyGothic = TCPDF_FONTS::addTTFfont('D:\xampp\htdocs\CvsuCanvassing\tcpdf\customfonts\CenturyGothic.ttf', 'TrueTypeUnicode', '', 96);
+$pdf->SetFont($CenturyGothic, '', 11);
 $text4 = 'Indang, Cavite, Philippines';
 $pdf->Cell(0, 10, $text4, 0, 1, 'C', 0, '', 0, false, 'T', 'M'); // 'C' stands for center alignment, 'T' stands for top alignment, 'M' stands for middle of the cell
+
+
+
 
 // Set Y position for the HTML content
 $pdf->SetY(30); // Adjust this value as needed
@@ -135,7 +146,7 @@ $htmlSection1 = '
     <!DOCTYPE html>
     <html>
     <head>
-        <meta charset="UTF-8">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     </head>
     <body>
         <div class="center-container">
@@ -157,26 +168,29 @@ $htmlSection1 = '
                     <table border="1" cellspacing="0" cellpadding="5" width="100%">
                         <thead>
                             <tr>
-                                <th>Item No.</th>
+                                <th style="width: 35px;">Item No.</th>
                                 <th style="width: 35px;">QTY</th>
                                 <th>Unit</th>
-                                <th>Description</th>
+                                <th style="width: 150px;">Description</th>
                                 <th>Unit Cost</th>
                                 <th>Total Cost</th>
                             </tr>
                         </thead>
                         <tbody>';
 
-foreach ($rows as $item_num => $row) {
-    $htmlSection1 .= '<tr>
-                <td>' . ($item_num + 1) . '</td>
-                <td style="width: 35px;">' . $row['qty'] . '</td>
-                <td>' . $row['product_name'] . '</td>
-                <td>' . $row['description'] . '</td>
-                <td>' . number_format($row['product_price'], 2) . '</td>
-                <td>' . number_format($row['total_price'], 2) . '</td>
-              </tr>';
-}
+                        foreach ($rows as $item_num => $row) {
+                            $htmlSection1 .= '<tr>
+                                        <td style="width: 35px;">' . ($item_num + 1) . '</td>
+                                        <td style="width: 35px;">' . $row['qty'] . '</td>
+                                        <td>' . $row['product_name'] . '</td>
+                                        <td style="width: 150px;">' . nl2br(htmlspecialchars($row['description'])) . '</td>
+                                        <td>' . number_format($row['product_price'], 2) . '</td>
+                                        <td>' . number_format($row['total_price'], 2) . '</td>
+                                      </tr>';
+                        }
+                        
+                        
+                        
 
 // Output the table and total for the first section
 $htmlSection1 .= '</tbody>
